@@ -1,0 +1,19 @@
+version: '3.9'
+services:
+  db:
+    image: postgres:15
+    container_name: vendas_online_database
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: DB_USERNAME
+      POSTGRES_PASSWORD: DB_PASSWORD@123456
+      POSTGRES_DB: DB_NAME
+    ports:
+      - '5432:5432'
+    volumes:
+      - db-data:/var/lib/postgresql/data
+      - ./build/common/create-readonly-user.sql:/docker-entrypoint-initdb.d/create-readonly-user.sql:ro # Script para usuário de leitura
+
+volumes:
+  db-data:
+    driver: local
